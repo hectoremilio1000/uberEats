@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Image } from "react-native";
 
-export default function DishItem({ dish }) {
+export default function DishListItem({ dish }) {
   return (
     <View style={styles.container}>
       <View style={{ flex: 1 }}>
