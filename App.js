@@ -1,25 +1,11 @@
+import { NavigationContainer } from "@react-navigation/native";
 import { View, StyleSheet } from "react-native";
-import Basket from "./src/screens/Basket";
-import DishDetailsScreen from "./src/screens/DishDetailsScreen";
-import HomeScreen from "./src/screens/HomeScreen";
-import RestaurantDetailsScreen from "./src/screens/RestaurantDetailScreen";
+import RootNavigator from "./src/navigation";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      {/* <HomeScreen /> */}
-      {/* <RestaurantDetailsScreen /> */}
-      {/* <DishDetailsScreen /> */}
-      <Basket />
-    </View>
+    <NavigationContainer>
+      <RootNavigator />
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

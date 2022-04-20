@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet, FlatList, Pressable } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 import restaurants from "../../../assets/data/restaurants.json";
@@ -11,7 +11,7 @@ const Basket = () => {
   const [quantity, setQuantity] = useState(1);
 
   return (
-    <View style={styles.page}>
+    <Pressable style={styles.page}>
       <Text style={styles.name}>{restaurant.name}</Text>
       <Text style={{ fontWeight: "bold", marginTop: 20, fontSize: 19 }}>
         Your items
@@ -25,7 +25,7 @@ const Basket = () => {
       <View style={styles.button}>
         <Text style={styles.buttonText}>Create order</Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
