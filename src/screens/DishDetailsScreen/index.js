@@ -1,15 +1,24 @@
-import { useState } from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import restaurants from "../../../assets/data/restaurants.json";
-import { useNavigation } from "@react-navigation/native";
 
-const dish = restaurants[0].dishes[0];
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { DataStore } from "aws-amplify";
+
+import { Dish } from "../../models";
 
 const DishDetailsScreen = () => {
   const navigation = useNavigation();
-
-  const [quantity, setQuantity] = useState(1);
+  const route = useRoute();
+  const id = route.params?.id;
+  const [dish, setDish] = useState(null);
+  const [quantity, setQuantity] = useState([]);
 
   const onPlus = () => {
     setQuantity(quantity + 1);
@@ -24,37 +33,46 @@ const DishDetailsScreen = () => {
   const getTotal = () => {
     return (dish.price * quantity).toFixed(2);
   };
+  useEffect(() => {
+    if (id) {
+      DataStore.query(Dish, id).then(setDish);
+    }
+  }, [id]);
 
-  return (
-    <View style={styles.page}>
-      <Text>{dish.name}</Text>
-      <Text>{dish.description}</Text>
-      <View style={styles.separator} />
-      <View style={styles.row}>
-        <AntDesign
-          name="minuscircleo"
-          size={60}
-          color={"black"}
-          onPress={onMinus}
-        />
-        <Text style={styles.quantity}>{quantity}</Text>
-        <AntDesign
-          name="pluscircleo"
-          size={60}
-          color={"black"}
-          onPress={onPlus}
-        />
+  if (!dish) {
+    return <ActivityIndicator size="large" color="gray" />;
+  } else {
+    return (
+      <View style={styles.page}>
+        <Text>{dish.name}</Text>
+        <Text>{dish.description}</Text>
+        <View style={styles.separator} />
+        <View style={styles.row}>
+          <AntDesign
+            name="minuscircleo"
+            size={60}
+            color={"black"}
+            onPress={onMinus}
+          />
+          <Text style={styles.quantity}>{quantity}</Text>
+          <AntDesign
+            name="pluscircleo"
+            size={60}
+            color={"black"}
+            onPress={onPlus}
+          />
+        </View>
+        <Pressable
+          style={styles.button}
+          onPress={() => navigation.navigate("Basket")}
+        >
+          <Text style={styles.buttonText}>
+            Add {quantity} to basket &#8226; {getTotal()}
+          </Text>
+        </Pressable>
       </View>
-      <Pressable
-        style={styles.button}
-        onPress={() => navigation.navigate("Basket")}
-      >
-        <Text style={styles.buttonText}>
-          Add {quantity} to basket &#8226; {getTotal()}
-        </Text>
-      </Pressable>
-    </View>
-  );
+    );
+  }
 };
 
 const styles = StyleSheet.create({

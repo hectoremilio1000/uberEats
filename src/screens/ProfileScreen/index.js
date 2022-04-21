@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import { useState } from "react";
 
+import { Auth } from "aws-amplify";
+
 const ProfileScreen = () => {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
@@ -43,7 +45,10 @@ const ProfileScreen = () => {
         style={styles.input}
       />
       <Button title="Save" />
-      <Text style={{ textAlign: "center", color: "red", margin: 10 }}>
+      <Text
+        onPress={() => Auth.signOut()}
+        style={{ textAlign: "center", color: "red", margin: 10 }}
+      >
         Sign out
       </Text>
     </SafeAreaView>

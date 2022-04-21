@@ -87,7 +87,7 @@ const OrdersStack = createNativeStackNavigator();
 const OrderStackNavigator = () => {
   return (
     <OrdersStack.Navigator>
-      <OrdersStack.Screen name="Orders" component={OrdersScreen} />
+      <OrdersStack.Screen name="orders" component={OrdersScreen} />
       <OrdersStack.Screen name="Order" component={OrdersDetails} />
     </OrdersStack.Navigator>
   );

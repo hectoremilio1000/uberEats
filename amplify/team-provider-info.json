@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-ubereats-staging-34754-authRole",
+      "UnauthRoleArn": "arn:aws:iam::900765165512:role/amplify-ubereats-staging-34754-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::900765165512:role/amplify-ubereats-staging-34754-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-ubereats-staging-34754-deployment",
+      "UnauthRoleName": "amplify-ubereats-staging-34754-unauthRole",
+      "StackName": "amplify-ubereats-staging-34754",
+      "StackId": "arn:aws:cloudformation:us-east-1:900765165512:stack/amplify-ubereats-staging-34754/a8fb04b0-c05c-11ec-86fa-0e572685b465",
+      "AmplifyAppId": "dmbnvg3xj686i"
+    },
+    "categories": {
+      "auth": {
+        "UberEats": {}
+      }
+    }
+  }
+}

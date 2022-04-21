@@ -30,4 +30,13 @@ export default StyleSheet.create({
   container: {
     margin: 10,
   },
+  containerActivity: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  horizontal: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10,
+  },
 });
