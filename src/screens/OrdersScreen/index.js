@@ -1,10 +1,13 @@
 import { View, Text, FlatList } from "react-native";
-import OrderListItem from "../../components/OrderListItem";
-import orders from "../../../assets/data/orders.json";
 
-const OrdersScreen = () => {
+import OrderListItem from "../../components/OrderListItem";
+import { useOrderContext } from "../../contexts/OrderContext";
+
+const OrderScreen = () => {
+  const { orders } = useOrderContext();
+
   return (
-    <View style={{ flex: 1, width: "100%", paddingTop: 50 }}>
+    <View style={{ flex: 1, width: "100%" }}>
       <FlatList
         data={orders}
         renderItem={({ item }) => <OrderListItem order={item} />}
@@ -13,4 +16,4 @@ const OrdersScreen = () => {
   );
 };
 
-export default OrdersScreen;
+export default OrderScreen;

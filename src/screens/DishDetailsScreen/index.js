@@ -12,13 +12,16 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { DataStore } from "aws-amplify";
 
 import { Dish } from "../../models";
+import { useBasketContext } from "../../contexts/BasketContext";
 
 const DishDetailsScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const id = route.params?.id;
   const [dish, setDish] = useState(null);
-  const [quantity, setQuantity] = useState([]);
+  const [quantity, setQuantity] = useState(1);
+
+  const { addDishToBasket } = useBasketContext();
 
   const onPlus = () => {
     setQuantity(quantity + 1);
@@ -38,6 +41,11 @@ const DishDetailsScreen = () => {
       DataStore.query(Dish, id).then(setDish);
     }
   }, [id]);
+
+  const onAddToBasket = async () => {
+    await addDishToBasket(dish, quantity);
+    navigation.goBack();
+  };
 
   if (!dish) {
     return <ActivityIndicator size="large" color="gray" />;
@@ -62,10 +70,7 @@ const DishDetailsScreen = () => {
             onPress={onPlus}
           />
         </View>
-        <Pressable
-          style={styles.button}
-          onPress={() => navigation.navigate("Basket")}
-        >
+        <Pressable style={styles.button} onPress={onAddToBasket}>
           <Text style={styles.buttonText}>
             Add {quantity} to basket &#8226; {getTotal()}
           </Text>

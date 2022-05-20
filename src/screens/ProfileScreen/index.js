@@ -5,16 +5,62 @@ import {
   SafeAreaView,
   TextInput,
   Button,
+  Alert,
 } from "react-native";
 import { useState } from "react";
 
-import { Auth } from "aws-amplify";
+import { Auth, DataStore } from "aws-amplify";
+import { User } from "../../models";
+import { useAuthContext } from "../../contexts/AuthContext";
+import { useNavigation } from "@react-navigation/native";
 
 const ProfileScreen = () => {
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [lat, setLat] = useState("0");
-  const [lng, setLng] = useState("0");
+  const { sub, setDbUser, dbUser } = useAuthContext();
+  const [name, setName] = useState(dbUser?.name || "");
+  const [address, setAddress] = useState(dbUser?.address || "");
+  const [lat, setLat] = useState(dbUser?.lat + "" || "0");
+  const [lng, setLng] = useState(dbUser?.lng + "" || "0");
+
+  const navigation = useNavigation();
+
+  const updateUser = async () => {
+    const user = await DataStore.save(
+      User.copyOf(dbUser, updated => {
+        updated.name = name;
+        updated.address = address;
+        updated.lat = parseFloat(lat);
+        updated.lng = parseFloat(lng);
+      })
+    );
+    setDbUser(user);
+  };
+
+  const createUser = async () => {
+    try {
+      const user = await DataStore.save(
+        new User({
+          name,
+          address,
+          lat: parseFloat(lat),
+          lng: parseFloat(lng),
+          sub,
+        })
+      );
+      setDbUser(user);
+      console.log(user);
+    } catch (e) {
+      Alert.alert("error", e.message);
+    }
+  };
+
+  const onSave = async () => {
+    if (dbUser) {
+      await updateUser();
+    } else {
+      await createUser();
+    }
+    navigation.goBack();
+  };
 
   return (
     <SafeAreaView>
@@ -44,7 +90,7 @@ const ProfileScreen = () => {
         placeholder="Longitude"
         style={styles.input}
       />
-      <Button title="Save" />
+      <Button title="Save" onPress={onSave} />
       <Text
         onPress={() => Auth.signOut()}
         style={{ textAlign: "center", color: "red", margin: 10 }}

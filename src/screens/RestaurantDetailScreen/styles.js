@@ -39,4 +39,15 @@ export default StyleSheet.create({
     justifyContent: "space-around",
     padding: 10,
   },
+  button: {
+    backgroundColor: "black",
+    marginTop: "auto",
+    padding: 20,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "600",
+    fontSize: 18,
+  },
 });

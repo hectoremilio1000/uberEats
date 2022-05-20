@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 
-import { View, FlatList, ActivityIndicator } from "react-native";
+import {
+  View,
+  FlatList,
+  ActivityIndicator,
+  Pressable,
+  Text,
+} from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
 import DishListItem from "../../components/DishListItem";
@@ -11,6 +17,9 @@ import { DataStore } from "aws-amplify";
 import { Restaurant, Dish } from "../../models";
 
 import styles from "./styles";
+import BasketContextProvider, {
+  useBasketContext,
+} from "../../contexts/BasketContext";
 
 const RestaurantDetailsScreen = () => {
   const [restaurant, setRestaurant] = useState(null);
@@ -21,15 +30,24 @@ const RestaurantDetailsScreen = () => {
 
   const id = route.params?.id;
 
-  console.log(id);
+  const {
+    setRestaurant: setBasketRestaurant,
+    basket,
+    basketDishes,
+  } = useBasketContext();
 
   useEffect(() => {
     if (!id) {
       return;
     }
+    setBasketRestaurant(null);
     DataStore.query(Restaurant, id).then(setRestaurant);
     DataStore.query(Dish, dish => dish.restaurantID("eq", id)).then(setDishes);
   }, [id]);
+
+  useEffect(() => {
+    setBasketRestaurant(restaurant);
+  }, [restaurant]);
 
   if (!restaurant) {
     return (
@@ -53,6 +71,16 @@ const RestaurantDetailsScreen = () => {
           style={styles.iconContainer}
           onPress={() => navigation.goBack()}
         />
+        {basket && (
+          <Pressable
+            style={styles.button}
+            onPress={() => navigation.navigate("Basket")}
+          >
+            <Text style={styles.buttonText}>
+              Open Basket ({basketDishes.length})
+            </Text>
+          </Pressable>
+        )}
       </View>
     );
   }

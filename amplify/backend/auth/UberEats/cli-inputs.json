@@ -3,7 +3,7 @@
   "cognitoConfig": {
     "identityPoolName": "testAuthIdentityPool",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "uberea020ef49a",
+    "resourceNameTruncated": "uberea798d5ab6",
     "userPoolName": "UberEats",
     "autoVerifiedAttributes": [
       "email"
@@ -25,9 +25,9 @@
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [],
     "userpoolClientReadAttributes": [],
-    "userpoolClientLambdaRole": "UberEa020ef49a_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "UberEa798d5ab6_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "020ef49a",
+    "sharedId": "798d5ab6",
     "resourceName": "UberEats",
     "authSelections": "identityPoolAndUserPool",
     "serviceName": "Cognito",
